@@ -89,7 +89,7 @@
 </div>
 
 
-<!--   Core JS Files   -->
+<!--   material-kit begin  -->
 <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
 <script src="assets/js/core/popper.min.js" type="text/javascript"></script>
 <script src="assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
@@ -104,7 +104,9 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
 <script src="assets/js/material-kit.js?v=2.0.5" type="text/javascript"></script>
+<!-- material-kit end -->
 
+<script src='js/bignumber.min.js'></script>
 
 <script type="text/javascript">
 
@@ -117,19 +119,19 @@
  * saving = amount_spent_on_gas_car - amount_spent_on_ev_car
  */
 function recalculate() {
-  let milesPerYear = parseFloat($("#milesPerYear").val());
-  let duration = parseFloat($("#duration").val());
-  let gasPrice = parseFloat($("#gasPrice").val());
-  let mpg = parseFloat($("#mpg").val());
-  let elecPrice = parseFloat($("#elecPrice").val());
-  let milesPerKwh = parseFloat($("#milesPerKwh").val());
-  let incentives = parseFloat($("#incentives").val());
-  let totalMiles = milesPerYear * duration;
-  let gasCarCostPerMile = gasPrice / mpg;
-  let elecCarCostPerMile = elecPrice / milesPerKwh;
-  let amountSpentOnGasCar = totalMiles * gasCarCostPerMile;
-  let amountSpentOnEvCar = totalMiles * elecCarCostPerMile - incentives;
-  let saving = amountSpentOnGasCar - amountSpentOnEvCar;
+  let milesPerYear = new BigNumber($("#milesPerYear").val());
+  let duration = new BigNumber($("#duration").val());
+  let gasPrice = new BigNumber($("#gasPrice").val());
+  let mpg = new BigNumber($("#mpg").val());
+  let elecPrice = new BigNumber($("#elecPrice").val());
+  let milesPerKwh = new BigNumber($("#milesPerKwh").val());
+  let incentives = new BigNumber($("#incentives").val());
+  let totalMiles = milesPerYear.times(duration);
+  let gasCarCostPerMile = gasPrice.dividedBy(mpg);
+  let elecCarCostPerMile = elecPrice.dividedBy(milesPerKwh);
+  let amountSpentOnGasCar = totalMiles.times(gasCarCostPerMile);
+  let amountSpentOnEvCar = totalMiles.times(elecCarCostPerMile).minus(incentives);
+  let saving = amountSpentOnGasCar.minus(amountSpentOnEvCar);
 
   $("#saving").text(Math.round(saving));
 }  
