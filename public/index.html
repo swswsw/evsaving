@@ -41,6 +41,10 @@
           <label for="MPG">MPG</label>
           <input type="number" id="mpg" name="mpg" value="22" class="parameter" style="width:5em"/>
         </div>
+        <div>
+          <label>$/mile: </label>
+          <label id="gasCarCostPerMile"></label>
+        </div>
       </div>
 
       <div class="parameter-box">
@@ -52,6 +56,10 @@
         <div>
           <label for="milesPerKwh">Miles per kWh</label>
           <input type="number" id="milesPerKwh" name="milesPerKwh" value="4.4" class="parameter" style="width:5em"/>
+        </div>
+        <div>
+          <label>$/mile: </label>
+          <label id="elecCarCostPerMile"></label>
         </div>
         <div>
           <label for="incentives">Incentives ($)</label>
@@ -68,6 +76,10 @@
         <div>
           <label for="duration">Duration (years)</label>
           <input type="number" id="duration" name="duration" value="10" class="parameter" style="width:5em"/>
+        </div>
+        <div>
+          <label>Total miles: </label>
+          <label id="totalMiles"></label>
         </div>
       </div>
 
@@ -133,7 +145,11 @@ function recalculate() {
   let amountSpentOnEvCar = totalMiles.times(elecCarCostPerMile).minus(incentives);
   let saving = amountSpentOnGasCar.minus(amountSpentOnEvCar);
 
-  $("#saving").text(Math.round(saving));
+
+  $("#gasCarCostPerMile").text(gasCarCostPerMile.decimalPlaces(2));
+  $("#elecCarCostPerMile").text(elecCarCostPerMile.decimalPlaces(2));
+  $("#totalMiles").text(totalMiles.decimalPlaces(0));
+  $("#saving").text(saving.decimalPlaces(0));
 }  
 
 recalculate();
